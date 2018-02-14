@@ -43,4 +43,21 @@ class Album
     values = [@artist_id]
     Artist.new(SqlRunner.run(sql, values)[0])
   end
+
+  def edit_title(new_title)
+    sql = "
+    UPDATE albums
+    SET (
+    title,
+    genre,
+    artist_id
+    ) =
+    (
+      $1, $2, $3
+    )
+    WHERE id = $4
+    RETURNING *;"
+    values = [new_title, @genre, @artist_id, @id]
+    SqlRunner.run(sql, values)
+  end
 end
