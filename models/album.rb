@@ -38,6 +38,12 @@ class Album
     results.map { |result| Album.new(result) }
   end
 
+  def Album.find_by_id(id)
+    sql = "SELECT * FROM albums WHERE id = $1"
+    values = [id]
+    Album.new(SqlRunner.run(sql, values).first)
+  end
+
   def find_artist()
     sql = "SELECT * FROM artists WHERE id = $1"
     values = [@artist_id]
