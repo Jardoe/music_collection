@@ -1,4 +1,5 @@
 require_relative('../db/sql_runner.rb')
+require_relative('album.rb')
 
 class Artist
 
@@ -20,6 +21,13 @@ class Artist
   def Artist.all()
     sql = "SELECT * FROM artists"
     results = SqlRunner.run(sql)
-    results.map { |result| Artist.new(result) } 
+    results.map { |result| Artist.new(result) }
+  end
+
+  def all_albums()
+      sql = "SELECT * FROM albums WHERE artist_id = $1"
+      values = [@id]
+      result = SqlRunner.run(sql, values)
+      result.map { |result| Album.new(result) }
   end
 end
